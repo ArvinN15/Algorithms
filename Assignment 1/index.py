@@ -36,14 +36,20 @@ class ProductManager:
         self.products = [p for p in self.products if p.pid != pid]
 
     def search_product(self, key, value):
+        results = []
         if key == 'ID':
-            return [p for p in self.products if p.pid == value]
+            results = [p for p in self.products if value in p.pid]
         elif key == 'Name':
-            return [p for p in self.products if p.name == value]
+            results = [p for p in self.products if value in p.name]
         elif key == 'Price':
-            return [p for p in self.products if p.price == float(value)]
+            results = [p for p in self.products if p.price == float(value)]
         elif key == 'Category':
-            return [p for p in self.products if p.category == value]
+            results = [p for p in self.products if value in p.category]
+
+        if not results:
+            return f"No products found for {key} '{value}'."
+        else:
+            return results
 
     def bubble_sort(self):
         n = len(self.products)
@@ -91,11 +97,11 @@ if __name__ == "__main__":
 
     # Search operation
     print("\nSearch Results:")
-    search_results = manager.search_product('Category', 'Clothing')
+    search_results = manager.search_product('Name', 'Shirt')
     for product in search_results:
         print(f"ID: {product.pid}, Name: {product.name}, Price: {product.price}, Category: {product.category}")
 
-    # Sorting using bubble sort
+    # Bubble sort
     start_time = time.time()
     manager.bubble_sort()
     end_time = time.time()
@@ -103,7 +109,7 @@ if __name__ == "__main__":
     for product in manager.products:
         print(f"ID: {product.pid}, Name: {product.name}, Price: {product.price}, Category: {product.category}")
 
-    # Sorting using insertion sort
+    # Insertion sort
     start_time = time.time()
     manager.insertion_sort()
     end_time = time.time()
