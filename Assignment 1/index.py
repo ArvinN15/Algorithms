@@ -33,7 +33,17 @@ class ProductManager:
                 break
 
     def delete_product(self, pid):
-        self.products = [p for p in self.products if p.pid != pid]
+        deleted_product = None
+        for p in self.products:
+            if p.pid == pid:
+                deleted_product = p
+                self.products.remove(p)
+                break
+
+        if deleted_product:
+            print(f"Product with ID {pid} (Name: {deleted_product.name}) has been deleted.")
+        else:
+            print(f"No product found with ID {pid}.")
 
     def search_product(self, key, value):
         results = []
@@ -90,10 +100,20 @@ if __name__ == "__main__":
         print(f"ID: {product.pid}, Name: {product.name}, Price: {product.price}, Category: {product.category}")
 
     # Delete operation
-    manager.delete_product('101')
+    deleted_product_id = '101'  # ID of the product to delete
+
     print("\nAfter Deletion:")
     for product in manager.products:
         print(f"ID: {product.pid}, Name: {product.name}, Price: {product.price}, Category: {product.category}")
+
+    deleted_product = manager.delete_product(deleted_product_id)
+
+    if deleted_product:
+        print(f"\nProduct with ID {deleted_product_id} (Name: {deleted_product.name}) has been deleted.")
+    else:
+        print(f"\nNo product found with ID {deleted_product_id}.")
+
+
 
     # Search operation
     print("\nSearch Results:")
